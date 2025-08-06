@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Northern Ireland Services – Single File</title>
+  <meta name="description" content="Northern Ireland's marketplace for trusted local professionals across all six counties. Post your job and get quotes fast." />
+  <style>
+    :root {
+      --bg: #ffffff;         
+      --fg: #111111;         
+      --muted: #666666;      
+      --line: #e6e6e6;       
+      --primary: #0056b3;    
+      --accent: #1e90ff;     
+    }
+    * { box-sizing: border-box }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      padding-top: 60px;
+    }
+    .header {
+      position: sticky; top: 0; background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; z-index: 20;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px; font-weight: 700;
+    }
+    .brand-text {
+      font-size: 14px;
+    }
+    .logo {
+      width: 28px; height: 28px;
+    }
+    .role-switch {
+      display: flex; gap: 8px; align-items: center;
+    }
+    .role {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .role.active {
+      background: #000; color: #fff;
+    }
+    .badge {
+      background: #000; color: #fff;
+      border-radius: 999px; padding: 0 6px;
+      font-size: 10px; margin-left: 6px;
+    }
+    .container {
+      max-width: 960px; margin: 0 auto; padding: 16px;
+    }
+    .banner {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 12px;
+    }
+    .verify-status {
+      font-size: 12px; color: var(--muted);
+    }
+    .actions {
+      display: flex; gap: 10px; margin-top: 12px;
+    }
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: 1px solid var(--primary);
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn.outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    .input {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      width: 100%;
+    }
+    .results {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .muted {
+      color: var(--muted);
+    }
+    .small {
+      font-size: 12px;
+    }
+    .strike {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+    .green {
+      color: #0a7a25;
+      font-weight: 700;
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal.hidden {
+      display: none;
+    }
+    .modal-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      width: 100%;
+      max-width: 520px;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .icon-btn {
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 8px;
+      cursor: pointer;
+    }
+    .form {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .footer {
+      border-top: 1px solid var(--line);
+      margin-top: 24px;
+      padding: 16px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .hidden {
+      display: none;
+    }
+    .mt {
+      margin-top: 12px;
+    }
+    .filters {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .checkboxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    /* Drawer */
+    .drawer {
+      position: fixed;
+      top: 52px;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, .5);
+      display: flex;
+      justify-content: flex-end;
+    }
+    .drawer-card {
+      background: #fff;
+      border-left: 1px solid var(--line);
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+      padding: 12px;
+      overflow: auto;
+      padding-top: 60px;
+    }
+    .btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    #debugToggle {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      z-index: 1000;
+      padding: 10px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="190" height="190" fill="white" stroke="black" stroke-width="4"/><polyline points="60,40 80,55 95,50 110,70 135,72 150,90 145,110 125,120 110,110 95,120 80,110 70,120 58,100 55,80" fill="none" stroke="black" stroke-width="4"/></svg>
+      <span class="brand-text">Northern Ireland Services</span>
+    </div>
+    <div class="role-switch">
+      <button data-role="customer" class="role active">Customer</button>
+      <button data-role="pro" class="role">Business</button>
+      <button id="notifBtn" class="icon-btn" title="Notifications">🔔 <span id="notifCount" class="badge hidden">0</span></button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- CUSTOMER VIEW -->
+    <section id="customerView">
+      <div class="banner">
+        <div>
+          <h1>Find trusted pros. It’s free for customers.</h1>
+          <p class="muted">Verified customers can post a job. Businesses pay to contact you.</p>
+        </div>
+        <div class="verify-status" id="verifyStatus"></div>
+      </div>
+
+      <div class="actions">
+        <button id="verifyBtn" class="btn outline">Verify your account</button>
+        <button id="requestBtn" class="btn">Request a service</button>
+      </div>
+
+      <h2 class="mt">Your recent requests</h2>
+      <div id="customerRequests" class="results"></div>
+    </section>
+
+    <!-- PRO VIEW -->
+    <section id="proView" class="hidden">
+      <div class="banner">
+        <div>
+          <h1>Leads in Northern Ireland</h1>
+          <p class="muted">Purchase a lead to reveal the customer’s contact details.</p>
+        </div>
+        <div>
+          <span id="proWelcome" class="muted small"></span>
+          <button id="openBizSignup" class="btn outline">Business Sign Up</button>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input id="proServiceFilter" class="input" placeholder="Filter by service (e.g., Plumber)">
+        <input id="proPostcodeFilter" class="input" placeholder="Filter by BT postcode">
+        <button id="proFilterBtn" class="btn outline">Filter</button>
+      </div>
+
+      <div id="proLeads" class="results"></div>
+    </section>
+  </main>
+
+  <!-- VERIFY MODAL -->
+  <div id="verifyModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Verify your identity</h2>
+        <button id="closeVerify" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <p class="muted small">Upload a recent utility bill (PDF/PNG/JPG). This demo stores only a flag in your browser — no files are uploaded.</p>
+      <input id="billFile" type="file" accept=".pdf,image/*">
+      <button id="confirmVerify" class="btn block">Confirm verification</button>
+      <p id="verifyMsg" class="msg"></p>
+    </div>
+  </div>
+
+  <!-- REQUEST MODAL -->
+  <div id="requestModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Request a service</h2>
+        <button id="closeRequest" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <div class="form">
+        <input id="reqName" class="input" placeholder="Your full name">
+        <input id="reqEmail" class="input" type="email" placeholder="Your email">
+        <input id="reqPhone" class="input" placeholder="Your phone">
+        <input id="reqPostcode" class="input" placeholder="BT postcode (e.g., BT7 1NN)">
+        <input id="reqService" class="input" placeholder="Service (e.g., Plumber)">
+        <textarea id="reqDetails" class="input" placeholder="Brief description"></textarea>
+        <button id="submitRequest" class="btn block">Post request (free)</button>
+        <p class="muted small">Your email/phone will be hidden. Businesses must purchase the lead to see them.</p>
+        <p id="requestMsg" class="msg"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUSINESS SIGNUP MODAL -->
+  <div id="bizModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Business Sign Up</h2>
+        <button id="closeBiz" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <div class="form">
+        <input id="bizName" class="input" placeholder="Business name">
+        <input id="bizContact" class="input" placeholder="Contact person">
+        <input id="bizEmail" class="input" type="email" placeholder="Email for lead alerts">
+        <input id="bizPhone" class="input" placeholder="Mobile for SMS (optional)">
+        <select id="bizCounty" class="input">
+          <option>Antrim</option><option>Armagh</option><option>Down</option>
+          <option>Fermanagh</option><option>Londonderry</option><option>Tyrone</option>
+        </select>
+        <div class="checkboxes">
+          <label><input type="checkbox" value="Plumber"> Plumber</label>
+          <label><input type="checkbox" value="Electrician"> Electrician</label>
+          <label><input type="checkbox" value="Photographer"> Photographer</label>
+          <label><input type="checkbox" value="Gardener"> Gardener</label>
+          <label><input type="checkbox" value="Painter"> Painter</label>
+          <label><input type="checkbox" value="Cleaner"> Cleaner</label>
+        </div>
+        <button id="createBiz" class="btn block">Create business account</button>
+        <p class="muted small">In this demo, we’ll store this in your browser only. A real system would send email/SMS from a server.</p>
+        <p id="bizMsg" class="msg"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAY MODAL (PRO SIDE) -->
+  <div id="payModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Purchase lead</h2>
+        <button id="closePay" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <p class="muted">Price: <span class="strike">£5.00</span> <strong class="green">£3.50 (30% off)</strong></p>
+      <input id="card" class="input" placeholder="Card number (demo)">
+      <div class="grid2">
+        <input id="exp" class="input" placeholder="MM/YY (demo)">
+        <input id="cvc" class="input" placeholder="CVC (demo)">
+      </div>
+      <button id="confirmPay" class="btn block">Pay and reveal contact</button>
+      <p class="muted small">Demo only — no real payment.</p>
+    </div>
+  </div>
+
+  <!-- Notifications Drawer -->
+  <div id="notifDrawer" class="drawer hidden">
+    <div class="drawer-card">
+      <div class="modal-header">
+        <h2>Notifications</h2>
+        <button id="closeNotif" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <div id="notifList" class="results"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Northern Ireland Services — Pay-per-lead marketplace.</p>
+  </footer>
+
+  <!-- Debug toggle button to switch views -->
+  <button id="debugToggle">Toggle Role View</button>
+
+  <script>
+  (function(){
+    const POSTCODE_RE = /^BT\d{1,2}[ ]?\d[ABDEFGHJLNPQRSTUWXYZ]{2}$/i;
+    const DISCOUNT = 0.30;
+    const BASE = 5.00;
+
+    const $ = (id)=>document.getElementById(id);
+    const qs = (s)=>document.querySelector(s);
+    const qsa = (s)=>document.querySelectorAll(s);
+    $('year').textContent = new Date().getFullYear();
+
+    // ROLE SWITCH
+    const customerView=$('customerView'), proView=$('proView');
+    qsa('.role').forEach(btn=>btn.onclick=()=>{
+      qsa('.role').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const role=btn.getAttribute('data-role');
+      if(role==='customer'){ customerView.classList.remove('hidden'); proView.classList.add('hidden'); }
+      else { customerView.classList.add('hidden'); proView.classList.remove('hidden'); renderProLeads(); updateProWelcome(); refreshNotifUI(); }
+    });
+
+    // STATE HELPERS
+    const get = (k, d=null)=>{ try{ const v=localStorage.getItem(k); return v?JSON.parse(v): (d===null?null:d);}catch{return d;} };
+    const set = (k,v)=>localStorage.setItem(k, JSON.stringify(v));
+    const nowISO = ()=>new Date().toISOString();
+
+    // VERIFICATION
+    const updateVerifyStatus=()=> $('verifyStatus').textContent = get('ni_verified_at')? '✅ Verified' : '❌ Not verified';
+    updateVerifyStatus();
+    $('verifyBtn').onclick=()=>{ $('verifyModal').classList.remove('hidden'); $('verifyMsg').textContent=''; $('billFile').value=''; };
+    $('closeVerify').onclick=()=> $('verifyModal').classList.add('hidden');
+    $('confirmVerify').onclick=()=>{
+      if(!$('billFile').files[0]){ $('verifyMsg').textContent='Please choose a file.'; return; }
+      set('ni_verified_at', nowISO()); $('verifyModal').classList.add('hidden'); updateVerifyStatus();
+      alert('Verification complete (demo). In production this uploads to a server.');
+    };
+
+    // LEADS
+    const leadsKey='ni_leads';
+    const getLeads=()=>get(leadsKey,[]);
+    const setLeads=(arr)=>set(leadsKey,arr);
+
+    // BUSINESSES
+    const bizKey='ni_businesses';
+    const meKey='ni_current_business'; // email string
+    const getBusinesses=()=>get(bizKey,[]);
+    const setBusinesses=(arr)=>set(bizKey,arr);
+    const getMeEmail=()=>get(meKey,'');
+    const setMeEmail=(e)=>set(me
