@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Northern Ireland Services – Single File</title>
+  <meta name="description" content="Northern Ireland's marketplace for trusted local professionals across all six counties. Post your job and get quotes fast." />
+  <style>
+    :root {
+      --bg: #ffffff;         
+      --fg: #111111;         
+      --muted: #666666;      
+      --line: #e6e6e6;       
+      --primary: #0056b3;    
+      --accent: #1e90ff;     
+    }
+    * { box-sizing: border-box }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      padding-top: 60px;
+    }
+    .header {
+      position: sticky; top: 0; background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; z-index: 20;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px; font-weight: 700;
+    }
+    .brand-text {
+      font-size: 14px;
+    }
+    .logo {
+      width: 28px; height: 28px;
+    }
+    .role-switch {
+      display: flex; gap: 8px; align-items: center;
+    }
+    .role {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .role.active {
+      background: #000; color: #fff;
+    }
+    .badge {
+      background: #000; color: #fff;
+      border-radius: 999px; padding: 0 6px;
+      font-size: 10px; margin-left: 6px;
+    }
+    .container {
+      max-width: 960px; width: 95%; margin: 0 auto; padding: 16px;
+    }
+    .banner {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 12px;
+      flex-wrap: wrap;
+    }
+    .banner > div {
+      flex: 1 1 100%;
+    }
+    .verify-status {
+      font-size: 12px; color: var(--muted);
+    }
+    .actions {
+      display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap;
+    }
+    .actions button {
+      flex: 1 1 48%; min-width: 120px;
+    }
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: 1px solid var(--primary);
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn.outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    .input {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    textarea.input {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .results {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .muted {
+      color: var(--muted);
+    }
+    .small {
+      font-size: 12px;
+    }
+    .strike {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+    .green {
+      color: #0a7a25;
+      font-weight: 700;
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+    .modal.hidden {
+      display: none !important;
+      pointer-events: none !important;
+    }
+    .modal-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      width: 100%;
+      max-width: 520px;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .icon-btn {
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 8px;
+      cursor: pointer;
+    }
+    .form {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .footer {
+      border-top: 1px solid var(--line);
+      margin-top: 24px;
+      padding: 16px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .hidden {
+      display: none !important;
+      pointer-events: none !important;
+    }
+    .mt {
+      margin-top: 12px;
+    }
+    .filters {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      grid-template-columns: 1fr;
+    }
+    @media(min-width:600px) {
+      .filters {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .checkboxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    /* Drawer */
+    .drawer {
+      position: fixed;
+      top: 52px;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, .5);
+      display: flex;
+      justify-content: flex-end;
+      z-index: 99;
+    }
+    .drawer.hidden {
+      display: none !important;
+      pointer-events: none !important;
+    }
+    .drawer-card {
+      background: #fff;
+      border-left: 1px solid var(--line);
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+      padding: 12px;
+      overflow: auto;
+      padding-top: 60px;
+    }
+    .btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    #debugToggle {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      z-index: 1000;
+      padding: 10px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="190" height="190" fill="white" stroke="black" stroke-width="4"/><polyline points="60,40 80,55 95,50 110,70 135,72 150,90 145,110 125,120 110,110 95,120 80,110 70,120 58,100 55,80" fill="none" stroke="black" stroke-width="4"/></svg>
+      <span class="brand-text">Northern Ireland Services</span>
+    </div>
+    <div class="role-switch">
+      <button data-role="customer" class="role active">Customer</button>
+      <button data-role="pro" class="role">Business</button>
+      <button id="notifBtn" class="icon-btn" title="Notifications">🔔 <span id="notifCount" class="badge hidden">0</span></button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- CUSTOMER VIEW -->
+    <section id="customerView">
+      <div class="banner">
+        <div>
+          <h1>Find trusted pros. It’s free for customers.</h1>
+          <p class="muted">Verified customers can post a job. Businesses pay to contact you.</p>
+        </div>
+        <div class="verify-status" id="verifyStatus"></div>
+      </div>
+
+      <div class="actions">
+        <button id="verifyBtn" class="btn outline">Verify your account</button>
+        <button id="requestBtn" class="btn">Request a service</button>
+      </div>
+
+      <h2 class="mt">Your recent requests</h2>
+      <div id="customerRequests" class="results"></div>
+    </section>
+
+    <!-- PRO VIEW -->
+    <section id="proView" class="hidden">
+      <div class="banner">
+        <div>
+          <h1>Leads in Northern Ireland</h1>
+          <p class="muted">Purchase a lead to reveal the customer’s contact details.</p>
+        </div>
+        <div>
+          <span id="proWelcome" class="muted small"></span>
+          <button id="openBizSignup" class="btn outline">Business Sign Up</button>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input id="proServiceFilter" class="input" placeholder="Filter by service (e.g., Plumber)">
+        <input id="proPostcodeFilter" class="input" placeholder="Filter by BT postcode">
+        <button id="proFilterBtn" class="btn outline">Filter</button>
+      </div>
+
+      <div id="proLeads" class="results"></div>
+    </section>
+  </main>
+
+  <!-- VERIFY MODAL -->
+  <div id="verifyModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Verify your identity</h2>
+        <button id="closeVerify" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <p class="muted small">Upload a recent utility bill (PDF/PNG/JPG). This demo stores only a flag in your browser — no files are uploaded.</p>
+      <input id="billFile" type="file" accept=".pdf,image/*">
+      <button id="confirmVerify" class="btn block">Confirm verification</button>
+      <p id="verifyMsg" class="msg"></p>
+    </div>
+  </div>
+
+  <!-- REQUEST MODAL -->
+  <div id="requestModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Request a service</h2>
+        <button id="closeRequest" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <div class="form">
+        <input id="reqName" class="input" placeholder="Your full name">
+        <input id="reqEmail" class="input" type="email" placeholder="Your email">
+        <input id="reqPhone" class="input" placeholder="Your phone">
+        <input id="reqPostcode" class="input" placeholder="BT postcode (e.g., BT7 1NN)">
+        <input id="reqService" class="input" placeholder="Service (e.g., Plumber)">
+        <textarea id="reqDetails" class="input" placeholder="Brief description"></textarea>
+        <button id="submitRequest" class="btn block">Post request (free)</button>
+        <p class="muted small">Your email/phone will be hidden. Businesses must purchase the lead to see them.</p>
+        <p id="requestMsg" class="msg"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUSINESS SIGNUP MODAL -->
+  <div id="bizModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Business Sign Up</h2>
+        <button id="closeBiz" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <div class="form">
+        <input id="bizName" class="input" placeholder="Business name">
+        <input id="bizContact" class="input" placeholder="Contact person">
+        <input id="bizEmail" class="input" type="email" placeholder="Email for lead alerts">
+        <input id="bizPhone" class="input" placeholder="Mobile for SMS (optional)">
+        <select id="bizCounty" class="input">
+          <option>Antrim</option><option>Armagh</option><option>Down</option>
+          <option>Fermanagh</option><option>Londonderry</option><option>Tyrone</option>
+        </select>
+        <div class="checkboxes">
+          <label><input type="checkbox" value="Plumber"> Plumber</label>
+          <label><input type="checkbox" value="Electrician"> Electrician</label>
+          <label><input type="checkbox" value="Photographer"> Photographer</label>
+          <label><input type="checkbox" value="Gardener"> Gardener</label>
+          <label><input type="checkbox" value="Painter"> Painter</label>
+          <label><input type="checkbox" value="Cleaner"> Cleaner</label>
+        </div>
+        <button id="createBiz" class="btn block">Create business account</button>
+        <p class="muted small">In this demo, we’ll store this in your browser only. A real system would send email/SMS from a server.</p>
+        <p id="bizMsg" class="msg"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAY MODAL (PRO SIDE) -->
+  <div id="payModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Purchase lead</h2>
+        <button id="closePay" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <p class="muted">Price: <span class="strike">£5.00</span> <strong class="green">£3.50 (30% off)</strong></p>
+      <input id="card" class="input" placeholder="Card number (demo)">
+      <div class="grid2">
+        <input id="exp" class="input" placeholder="MM/YY (demo)">
+        <input id="cvc" class="input" placeholder="CVC (demo)">
+      </div>
+      <button id="confirmPay" class="btn block">Pay and reveal contact</button>
+      <p class="muted small">Demo only — no real payment.</p>
+    </div>
+  </div>
+
+  <!-- Notifications Drawer -->
+  <div id="notifDrawer" class="drawer hidden">
+    <div class="drawer-card">
+      <div class="modal-header">
+        <h2>Notifications</h2>
+        <button id="closeNotif" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <div id="notifList" class="results"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Northern Ireland Services — Pay-per-lead marketplace.</p>
+  </footer>
+
+  <!-- Debug toggle button to switch views -->
+  <button id="debugToggle">Toggle Role View</button>
+
+  <script>
+  (function(){
+    const POSTCODE_RE = /^BT\d{1,2}[ ]?\d[ABDEFGHJLNPQRSTUWXYZ]{2}$/i;
+    const DISCOUNT = 0.30;
+    const BASE = 5.00;
+
+    const $ = (id)=>document.getElementById(id);
+    const qs = (s)=>document.querySelector(s);
+    const qsa = (s)=>document.querySelectorAll(s);
+    $('year').textContent = new Date().getFullYear();
+
+    // ROLE SWITCH
+    const customerView=$('customerView'), proView=$('proView');
+    qsa('.role').forEach(btn=>btn.onclick=()=>{
+      qsa('.role').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const role=btn.getAttribute('data-role');
+      if(role==='customer'){ customerView.classList.remove('hidden'); proView.classList.add('hidden'); }
+      else { customerView.classList.add('hidden'); proView.classList.remove('hidden'); renderProLeads(); updateProWelcome(); refreshNotifUI(); }
+    });
+
+    // STATE HELPERS
+    const get = (k, d=null)=>{ try{ const v=localStorage.getItem(k); return v?JSON.parse(v): (d===null?null:d);}catch{return d;} };
+    const set = (k,v)=>localStorage.setItem(k, JSON.stringify(v));
+    const nowISO = ()=>new Date().toISOString();
+
+    // VERIFICATION
+    const updateVerifyStatus=()=> $('verifyStatus').textContent = get('ni_verified_at')? '✅ Verified' : '❌ Not verified';
+    updateVerifyStatus();
+    $('verifyBtn').onclick=()=>{ $('verifyModal').classList.remove('hidden'); $('verifyMsg').textContent=''; $('billFile').value=''; };
+    $('closeVerify').onclick=()=> $('verifyModal').classList.add('hidden');
+    $('confirmVerify').onclick=()=>{
+      if(!$('billFile').files[0]){ $('verifyMsg').textContent='Please choose a file.'; return; }
+      set('ni_verified_at', nowISO()); $('verifyModal').classList.add('hidden'); updateVerifyStatus();
+      alert('Verification complete (demo). In production this uploads to a server.');
+    };
+
+    // LEADS
+    const leadsKey='ni_leads';
+    const getLeads=()=>get(leadsKey,[]);
+    const setLeads=(arr)=>set(leadsKey,arr);
+
+    // BUSINESSES
+    const bizKey='ni_businesses';
+    const meKey='ni_current_business'; // email string
+    const getBusinesses=()=>get(bizKey,[]);
+    const setBusinesses=(arr)=>set(bizKey,arr);
+    const getMeEmail=()=>get(meKey,'');
+    const setMeEmail=(e)=>set(meKey,e||'');
+
+    function updateProWelcome(){
+      const me = getMeEmail();
+      const email = me || '';
+      $('proWelcome').textContent = email ? `Logged in as: ${email}` : 'Not logged in';
+    }
+
+    // NOTIFICATIONS (per business)
+    function getBizNotifKey(email){ return 'ni_notif_' + (email||''); }
+    function pushNotif(email, payload){
+      if(!email) return;
+      const k=getBizNotifKey(email);
+      const arr=get(k,[]);
+      arr.unshift(payload);
+      set(k,arr);
+      refreshNotifUI();
+    }
+    function pullNotifs(email){
+      const k=getBizNotifKey(email);
+      return get(k,[]);
+    }
+    function clearNotifs(email){ set(getBizNotifKey(email),[]); refreshNotifUI(); }
+
+    // CUSTOMER REQUEST FLOW
+    $('requestBtn').onclick=()=>{
+      if(!get('ni_verified_at')){ alert('Please verify first by uploading a utility bill.'); return; }
+      $('requestModal').classList.remove('hidden'); $('requestMsg').textContent='';
+      ['reqName','reqEmail','reqPhone','reqPostcode','reqService','reqDetails'].forEach(id=>$(id).value='');
+    };
+    $('closeRequest').onclick=()=> $('requestModal').classList.add('hidden');
+
+    $('submitRequest').onclick=()=>{
+      const name=$('reqName').value.trim();
+      const email=$('reqEmail').value.trim();
+      const phone=$('reqPhone').value.trim();
+      const postcode=$('reqPostcode').value.trim().toUpperCase();
+      const service=$('reqService').value.trim();
+      const details=$('reqDetails').value.trim();
+      if(!name||!email||!phone||!postcode||!service){ $('requestMsg').textContent='Please fill all fields.'; return; }
+      if(!POSTCODE_RE.test(postcode)){ $('requestMsg').textContent='Enter a valid BT postcode.'; return; }
+      const lead={ id:'L'+Date.now(), createdAt:nowISO(), customer:{name,email,phone}, postcode, service, details, purchasedBy:[] };
+      const arr=getLeads(); arr.unshift(lead); setLeads(arr);
+      $('requestModal').classList.add('hidden');
+      renderCustomerRequests();
+      // Notify matching businesses (by service match only for this demo)
+      const matches = getBusinesses().filter(b=> (b.services||[]).includes(service));
+      matches.forEach(b=> pushNotif(b.email, {type:'lead', service, postcode, id:lead.id, createdAt:lead.createdAt} ));
+      alert('Your request is posted. Pros who match your service will be notified. It’s free for you.');
+    };
+
+    function mask(s, keep=2){
+      const at=s.indexOf('@');
+      if(at>0){ const a=s.slice(0,at), d=s.slice(at); return a.slice(0,keep)+'***'+d; }
+      const digits=s.replace(/\D/g,'');
+      return digits.slice(0,keep)+'***'+digits.slice(-2);
+    }
+
+    function renderCustomerRequests(){
+      const box=$('customerRequests');
+      const leads=getLeads().slice(0,10);
+      if(leads.length===0){ box.innerHTML='<p class="muted">No requests yet.</p>'; return; }
+      box.innerHTML='';
+      leads.forEach(l=>{
+        const div=document.createElement('div'); div.className='card';
+        div.innerHTML=`
+          <div class="row"><div><strong>${l.service}</strong> • ${l.postcode}</div><div class="muted small">${new Date(l.createdAt).toLocaleString()}</div></div>
+          <div class="muted small">${l.details||''}</div>
+          <div class="muted small">Your contact stays hidden: ${mask(l.customer.email)} / ${mask(l.customer.phone)}</div>`;
+        box.appendChild(div);
+      });
+    }
+    renderCustomerRequests();
+
+    // PRO LEADS LIST
+    function renderProLeads(){
+      const box=$('proLeads');
+      const svc=$('proServiceFilter').value.trim().toLowerCase();
+      const pc=$('proPostcodeFilter').value.trim().toUpperCase();
+      const leads=getLeads().filter(l=>(!svc||l.service.toLowerCase().includes(svc)) && (!pc||l.postcode.includes(pc)));
+      if(leads.length===0){ box.innerHTML='<p class="muted">No leads match your filters yet.</p>'; return; }
+      box.innerHTML='';
+      leads.forEach(l=>{
+        const div=document.createElement('div'); div.className='card';
+        div.innerHTML=`
+          <div class="row">
+            <div><strong>${l.service}</strong> • ${l.postcode}</div>
+            <div class="muted small">${new Date(l.createdAt).toLocaleString()}</div>
+          </div>
+          <div class="muted small">${l.details||''}</div>
+          <div class="row" style="margin-top:8px">
+            <div class="muted small">Contact: ${mask(l.customer.email)} / ${mask(l.customer.phone)}</div>
+            <button class="btn" data-id="${l.id}">Buy lead £${(BASE*(1-DISCOUNT)).toFixed(2)}</button>
+          </div>`;
+        div.querySelector('button.btn').onclick=()=> openPay(l.id);
+        box.appendChild(div);
+      });
+      // If any purchased, reveal
+      showPurchasedContacts();
+    }
+    $('proFilterBtn').onclick=renderProLeads;
+
+    // PAY FLOW
+    let pendingLeadId=null;
+    const payModal=$('payModal');
+    $('closePay').onclick=()=>{ payModal.classList.add('hidden'); pendingLeadId=null; };
+    $('confirmPay').onclick=()=>{
+      if(!pendingLeadId){ payModal.classList.add('hidden'); return; }
+      const leads=getLeads(); const i=leads.findIndex(x=>x.id===pendingLeadId);
+      if(i>=0){ leads[i].purchasedBy.push(getMeEmail()||'demo-pro'); setLeads(leads); }
+      payModal.classList.add('hidden'); pendingLeadId=null;
+      alert('Payment complete (demo). Contact details revealed below.');
+      showPurchasedContacts(); renderProLeads();
+    };
+    function openPay(id){ pendingLeadId=id; payModal.classList.remove('hidden'); }
+
+    function showPurchasedContacts(){
+      const me=getMeEmail(); if(!me) return;
+      const leads=getLeads();
+      qsa('#proLeads .card').forEach(card=>{
+        const btn=card.querySelector('button.btn'); if(!btn) return;
+        const id=btn.getAttribute('data-id');
+        const lead=leads.find(l=>l.id===id);
+        if(lead && lead.purchasedBy.includes(me)){
+          const contactDiv=card.querySelector('.row .muted.small');
+          if(contactDiv){ contactDiv.innerHTML=`Contact: <strong>${lead.customer.email}</strong> / <strong>${lead.customer.phone}</strong>`; }
+          btn.textContent='Purchased'; btn.disabled=true;
+        }
+      });
+    }
+
+    // BUSINESS SIGNUP
+    $('openBizSignup').onclick=()=>{ $('bizModal').classList.remove('hidden'); $('bizMsg').textContent=''; };
+    $('closeBiz').onclick=()=> $('bizModal').classList.add('hidden');
+    $('createBiz').onclick=()=>{
+      const name=$('bizName').value.trim();
+      const contact=$('bizContact').value.trim();
+      const email=$('bizEmail').value.trim();
+      const phone=$('bizPhone').value.trim();
+      const county=$('bizCounty').value;
+      const services=[...document.querySelectorAll('#bizModal .checkboxes input:checked')].map(x=>x.value);
+      if(!name||!contact||!email||services.length===0){ $('bizMsg').textContent='Please fill business name, contact, email, and select at least one service.'; return; }
+      // free first 20 per county (browser demo)
+      const limit=20;
+      const key='ni_free_counts';
+      const counts=get(key,{}); const used=counts[county]||0;
+      let note='';
+      if(used<limit){ counts[county]=used+1; set(key,counts); note=`You are in the first ${limit} in ${county}: free subscription applied.`; }
+      else { note=`Free limit reached in ${county}.`; }
+      // save business
+      const arr=get('ni_businesses',[]);
+      if(arr.find(b=>b.email===email)){ $('bizMsg').textContent='This email is already registered.'; return; }
+      arr.push({name,contact,email,phone,county,services,createdAt:new Date().toISOString()});
+      set('ni_businesses',arr); set('ni_current_business', email); 
+      $('bizModal').classList.add('hidden');
+      alert(`Business account created. ${note}\nYou will receive on-page notifications for matching leads in this demo.`);
+      renderProLeads(); updateProWelcome(); refreshNotifUI();
+    };
+
+    // Notifications UI
+    function refreshNotifUI(){
+      const me=getMeEmail();
+      const badge=document.getElementById('notifCount');
+      if(!me){ badge.classList.add('hidden'); badge.textContent='0'; return; }
+      const count=pullNotifs(me).length;
+      if(count>0){ badge.classList.remove('hidden'); badge.textContent=String(count); }
+      else { badge.classList.add('hidden'); badge.textContent='0'; }
+    }
+    refreshNotifUI();
+
+    document.getElementById('notifBtn').onclick=()=>{
+      const me=getMeEmail();
+      if(!me){ alert('Sign up as a business to receive alerts.'); return; }
+      const drawer=document.getElementById('notifDrawer'); const list=document.getElementById('notifList');
+      const arr=pullNotifs(me);
+      list.innerHTML = arr.length? '' : '<p class="muted">No notifications.</p>';
+      arr.forEach(n=>{
+        const div=document.createElement('div'); div.className='card';
+        div.innerHTML=`<div class="row"><div><strong>New ${n.service}</strong> lead — ${n.postcode}</div><div class="muted small">${new Date(n.createdAt).toLocaleString()}</div></div>
+                       <div class="row"><a class="btn outline" href="#" data-id="${n.id}">View lead</a>
+                       <button class="btn" data-id="${n.id}">Buy lead £${(BASE*(1-DISCOUNT)).toFixed(2)}</button></div>`;
+        div.querySelector('a').onclick=(e)=>{ e.preventDefault(); drawer.classList.add('hidden'); 
+          document.querySelector('.role[data-role="pro"]').click(); document.getElementById('proServiceFilter').value=''; document.getElementById('proPostcodeFilter').value=''; };
+        div.querySelector('button.btn').onclick=()=>{ drawer.classList.add('hidden'); openPay(n.id); };
+        list.appendChild(div);
+      });
+      drawer.classList.remove('hidden');
+      clearNotifs(me);
+    };
+    document.getElementById('closeNotif').onclick=()=> document.getElementById('notifDrawer').classList.add('hidden');
+
+    // When switching to pro, update purchased visibility and notifications
+    document.querySelector('.role[data-role="pro"]').addEventListener('click', ()=>{
+      setTimeout(()=>{ showPurchasedContacts(); refreshNotifUI(); }, 50);
+    });
+
+    // Debug toggle button to switch views
+    document.getElementById('debugToggle').onclick=()=>{
+      if(!customerView.classList.contains('hidden')){
+        customerView.classList.add('hidden'); proView.classList.remove('hidden');
+        qsa('.role').forEach(b=>b.classList.remove('active'));
+        document.querySelector('.role[data-role="pro"]').classList.add('active');
+      } else {
+        proView.classList.add('hidden'); customerView.classList.remove('hidden');
+        qsa('.role').forEach(b=>b.classList.remove('active'));
+        document.querySelector('.role[data-role="customer"]').classList.add('active');
+      }
+      renderProLeads(); updateProWelcome(); refreshNotifUI();
+    };
+  })();
+  </script>
+</body>
+</html>
